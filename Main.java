@@ -44,6 +44,7 @@ public class Main {
                 boolean success = add(_queue, info);
                 if (success) {
                     System.out.println("Addition Successful.");
+                    System.out.println("-");
                     System.out.print(_queue.toString());
                 }
             } else if (arr[0].toLowerCase().equals("clear")) {
@@ -54,18 +55,21 @@ public class Main {
                 boolean success = delete(_queue, info);
                 if (success) {
                     System.out.println("Deletion Successful.");
+                    System.out.println("-");
                     System.out.print(_queue.toString());
                 }
             } else if (arr[0].toLowerCase().equals("exit") || arr[0].toLowerCase().equals("quit")) {
                 System.out.println("Exiting Q . . .");
                 break;
             } else if (arr[0].toLowerCase().equals("print")) {
+                System.out.println("-");
                 System.out.print(_queue.toString());
             } else if (arr[0].toLowerCase().equals("update")) {
                 String[] info = arr[1].split(" ");
                 boolean success =update(_queue, info);
                 if (success) {
                     System.out.println("Update successful.");
+                    System.out.println("-");
                     System.out.print(_queue.toString());
                 }
             } else if (arr[0].toLowerCase().equals("help")) {
