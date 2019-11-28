@@ -145,12 +145,13 @@ public class Main {
 
     private static boolean update(Q q, String[] input) {
         try {
-            int i = Integer.parseInt(input[2]);
+
             if (input.length < 3) {
                 System.out.println("Wrong format. An update command must be of the form: \n" +
                         "update name category percent");
                 return false;
             }
+            int i = Integer.parseInt(input[2]);
             if (i > 100 || i < 0) {
                 System.out.println("Invalid percent.");
                 return false;
