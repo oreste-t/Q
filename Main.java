@@ -2,8 +2,7 @@
 
 import java.io.*;
 import java.util.Scanner;
-import java.util.ArrayList;
-import javax.swing.*;
+
 
 public class Main {
     public static void main(String... rawArgs) {
@@ -25,7 +24,7 @@ public class Main {
             System.out.println("No serialized Q identified. New Q has been created.");
 
         } catch (ClassNotFoundException c) {
-            System.out.println("Q class not found");
+            System.out.println("Q class not found.");
             c.printStackTrace();
             return;
         }
@@ -56,6 +55,26 @@ public class Main {
                 String[] info = arr[1].split(" ");
                 update(_queue, info);
                 System.out.print(_queue.toString());
+            } else if (arr[0].toLowerCase().equals("help")) {
+                String help = "Commands: \n" +
+                        "ADD - Adds an assignment to the Q. Assignment must have a name, a category (class/topic), " +
+                        "and a due date. Typed command should be in the following format: \n" +
+                        "add name category month day year \n" +
+                        "\n" +
+                        "CLEAR - wipes the Q completely. Typed command should be in the following format: \n" +
+                        "clear \n" +
+                        "\n" +
+                        "PRINT - Outputs the current contents of the Q, as well as completed assignments. Items " +
+                        "further towards the top are due sooner. Typed command should be in the following format: \n" +
+                        "print \n" +
+                        "\n" +
+                        "UPDATE - Updates completion percentage of an assignment. The percentage should be a number" +
+                        "between 0 and 100. At 100 percent completion, the assignment becomes permanently complete," +
+                        "and is placed at the bottom of the Q with other completed assignments. Completion percentage" +
+                        "can no longer be modified for this assignment. Typed command should be in the following " +
+                        "format: \n" +
+                        "update name category percent";
+                System.out.println(help);
             } else {
                 System.out.println("Unrecognized command. Type \'help\' for a list of commands.");
             }
@@ -71,7 +90,7 @@ public class Main {
             out.writeObject(_queue);
             out.close();
             fileOut.close();
-            System.out.println("Serialized data is saved in q.ser");
+            System.out.println("Serialized data is saved in q.ser.");
         } catch (IOException i) {
             i.printStackTrace();
         }

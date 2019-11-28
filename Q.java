@@ -1,14 +1,13 @@
 
 
 import java.util.PriorityQueue;
-import java.util.ArrayList;
-import java.io.*;
+
 
 public class Q implements java.io.Serializable{
 
     Q(){
         this._queue = new PriorityQueue<>();
-        _modified = 0;
+//        _modified = 0;
 
     }
 
@@ -17,7 +16,6 @@ public class Q implements java.io.Serializable{
         this._queue.add(o);
 //        _modified = 1;
         this.asArray();
-
     }
 
     public Assignment poll() {
