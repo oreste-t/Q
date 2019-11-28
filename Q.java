@@ -64,23 +64,29 @@ public class Q implements java.io.Serializable{
 //            this.asArray();
 //            return this.toString();
 //        }
-        String result = "";
+
         if ( this._arrayQ == null || this._arrayQ.length == 0 || this._arrayQ[0] == null) {
             return "Q is empty \n";
         }
         PriorityQueue<Assignment> copy = new PriorityQueue<>();
         Assignment asmt;
+        String complete = "";
+        String result = "";
         while (!_queue.isEmpty()) {
             asmt = _queue.poll();
             if (asmt == null) {
                 continue;
             }
-            result = result + asmt.toString();
-            result = result + "\n";
+            if (asmt.getCompletion() == 100) {
+                complete = complete + asmt.toString() + "\n";
+                copy.add(asmt);
+                continue;
+            }
+            result = result + asmt.toString() + "\n";
             copy.add(asmt);
         }
         _queue = copy;
-        return result;
+        return result + complete;
     }
 
 

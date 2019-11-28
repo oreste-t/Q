@@ -35,9 +35,9 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
 
     public void update(int percent) {
         _completion = percent;
-        if (_completion == 100) {
-            _due = LocalDate.MAX;
-        }
+//        if (_completion == 100) {
+//            _due = LocalDate.MAX;
+//        }
     }
 
     @Override
@@ -75,6 +75,10 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
 
     String getCategory() {
         return _category;
+    }
+
+    int getCompletion() {
+        return _completion;
     }
 
     /** Due Date of this assignment. */

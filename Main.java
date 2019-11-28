@@ -41,8 +41,10 @@ public class Main {
 
             if (arr[0].toLowerCase().equals("add")) {
                 String[] info = arr[1].split(" ");
-                add(_queue, info);
-                System.out.print(_queue.toString());
+                boolean success = add(_queue, info);
+                if (success) {
+                    System.out.print(_queue.toString());
+                }
             } else if (arr[0].toLowerCase().equals("exit") || arr[0].toLowerCase().equals("quit")) {
                 System.out.println("Exiting Q . . .");
                 break;
@@ -59,7 +61,7 @@ public class Main {
                 String help = "Commands: \n" +
                         "ADD - Adds an assignment to the Q. Assignment must have a name, a category (class/topic), " +
                         "and a due date. Typed command should be in the following format: \n" +
-                        "add name category month day year \n" +
+                        "add name category MM DD YYYY \n" +
                         "\n" +
                         "CLEAR - wipes the Q completely. Typed command should be in the following format: \n" +
                         "clear \n" +
@@ -69,9 +71,9 @@ public class Main {
                         "print \n" +
                         "\n" +
                         "UPDATE - Updates completion percentage of an assignment. The percentage should be a number" +
-                        "between 0 and 100. At 100 percent completion, the assignment becomes permanently complete," +
-                        "and is placed at the bottom of the Q with other completed assignments. Completion percentage" +
-                        "can no longer be modified for this assignment. Typed command should be in the following " +
+                        "between 0 and 100. At 100 percent completion, the assignment becomes complete, and is " +
+                        "placed at the bottom of the Q with other completed assignments. Typed command should be " +
+                        "in the following " +
                         "format: \n" +
                         "update name category percent";
                 System.out.println(help);
@@ -97,32 +99,43 @@ public class Main {
 
     }
 
-    public static void add(Q q, String[] input) {
+    public static boolean add(Q q, String[] input) {
         if (input.length < 5) {
-            System.out.println("Wrong format. An add command must be of the form:" +
-                    "\n add name category month day year");
-            return;
+            System.out.println("Wrong format. An add command must be of the form: \n" +
+                    "add name category MM DD YYYY");
+            return false;
         }
-        Assignment alpha = new Assignment(input[0], input[1], Integer.parseInt(input[2]), Integer.parseInt(input[3]), Integer.parseInt(input[4]));
-        q.push(alpha);
+        try {
+            Assignment alpha = new Assignment(input[0], input[1], Integer.parseInt(input[2]), Integer.parseInt(input[3]), Integer.parseInt(input[4]));
+            q.push(alpha);
+            return true;
+        } catch (NumberFormatException e) {
+            System.out.println("Date must be properly formatted and consist only of numbers. An add command \n" +
+                    "must be of the form:" +
+                    "add name category MM DD YYYY");
+            return false;
+        }
+
     }
 
-    public static void update(Q q, String[] input) {
+    public static boolean update(Q q, String[] input) {
         try {
             int i = Integer.parseInt(input[2]);
             if (input.length < 3) {
-                System.out.println("Wrong format. An update command must be of the form:" +
-                        "\n update name category percent");
-                return;
+                System.out.println("Wrong format. An update command must be of the form: \n" +
+                        "update name category percent");
+                return false;
             }
             if (i > 100 || i < 0) {
                 System.out.println("Invalid percent.");
-                return;
+                return false;
             }
             q.update(input[0], input[1], i);
+            return true;
         } catch (NumberFormatException e) {
-            System.out.println("Wrong format. An update command must be of the form:" +
-                    "\n update name category percent");
+            System.out.println("Percent must be a number. An update command must be of the form: \n" +
+                    "update name category percent");
+            return false;
         }
     }
 
