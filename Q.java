@@ -42,6 +42,24 @@ public class Q implements java.io.Serializable{
 //        this._modified = 1;
     }
 
+    public boolean delete(String name, String category) {
+        _queue = new PriorityQueue<>();
+        boolean e = false;
+        for (int i = 0; i < _arrayQ.length; i++) {
+            if(_arrayQ[i].getName().equals(name) && _arrayQ[i].getCategory().equals(category)) {
+                e = true;
+                continue;
+            }
+            _queue.add(_arrayQ[i]);
+        }
+        if (!e) {
+            System.out.println("Assignment with name " + name + " and category " + category + " does not exist.");
+            return false;
+        }
+        this.asArray();
+        return true;
+    }
+
     public void update(String name, String category, int percent) {
         _queue = new PriorityQueue<>();
         boolean e = false;

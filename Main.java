@@ -43,6 +43,17 @@ public class Main {
                 String[] info = arr[1].split(" ");
                 boolean success = add(_queue, info);
                 if (success) {
+                    System.out.println("Addition Successful.");
+                    System.out.print(_queue.toString());
+                }
+            } else if (arr[0].toLowerCase().equals("clear")) {
+                _queue.clear();
+                System.out.println("Q has been wiped.");
+            } else if (arr[0].toLowerCase().equals("delete")) {
+                String[] info = arr[1].split(" ");
+                boolean success = delete(_queue, info);
+                if (success) {
+                    System.out.println("Deletion Successful.");
                     System.out.print(_queue.toString());
                 }
             } else if (arr[0].toLowerCase().equals("exit") || arr[0].toLowerCase().equals("quit")) {
@@ -50,13 +61,13 @@ public class Main {
                 break;
             } else if (arr[0].toLowerCase().equals("print")) {
                 System.out.print(_queue.toString());
-            } else if (arr[0].toLowerCase().equals("clear")) {
-                _queue.clear();
-                System.out.println("Q has been wiped.");
             } else if (arr[0].toLowerCase().equals("update")) {
                 String[] info = arr[1].split(" ");
-                update(_queue, info);
-                System.out.print(_queue.toString());
+                boolean success =update(_queue, info);
+                if (success) {
+                    System.out.println("Update successful.");
+                    System.out.print(_queue.toString());
+                }
             } else if (arr[0].toLowerCase().equals("help")) {
                 String help = "Commands: \n" +
                         "ADD - Adds an assignment to the Q. Assignment must have a name, a category (class/topic), " +
@@ -66,11 +77,15 @@ public class Main {
                         "CLEAR - wipes the Q completely. Typed command should be in the following format: \n" +
                         "clear \n" +
                         "\n" +
+                        "DELETE - deletes all elements from the queue that have the given name and category. Typed " +
+                        "command should be in the following format: \n" +
+                        "delete name category \n" +
+                        "\n" +
                         "PRINT - Outputs the current contents of the Q, as well as completed assignments. Items " +
                         "further towards the top are due sooner. Typed command should be in the following format: \n" +
                         "print \n" +
                         "\n" +
-                        "UPDATE - Updates completion percentage of an assignment. The percentage should be a number" +
+                        "UPDATE - Updates completion percentage of an assignment. The percentage should be a number " +
                         "between 0 and 100. At 100 percent completion, the assignment becomes complete, and is " +
                         "placed at the bottom of the Q with other completed assignments. Typed command should be " +
                         "in the following " +
@@ -99,7 +114,7 @@ public class Main {
 
     }
 
-    public static boolean add(Q q, String[] input) {
+    private static boolean add(Q q, String[] input) {
         if (input.length < 5) {
             System.out.println("Wrong format. An add command must be of the form: \n" +
                     "add name category MM DD YYYY");
@@ -118,7 +133,17 @@ public class Main {
 
     }
 
-    public static boolean update(Q q, String[] input) {
+    private static boolean delete(Q q, String[] input) {
+        if (input.length < 2) {
+            System.out.println("Wrong format. A delete command must be of the form: \n" +
+                    "delete name category");
+            return false;
+        }
+        boolean result = q.delete(input[0], input[1]);
+        return result;
+    }
+
+    private static boolean update(Q q, String[] input) {
         try {
             int i = Integer.parseInt(input[2]);
             if (input.length < 3) {
