@@ -1,4 +1,5 @@
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.*;
 import java.io.*;
@@ -46,7 +47,8 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
         if (_completion == 100) {
             result = result + " : " + _category + " : -COMPLETE-";
         } else {
-            result = result + " : " + _category + " : at " + _completion + "%";
+            result = result + " : " + _category + " : at " + _completion + "% " + ": due " + _due.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
+
         }
 
         return result;
