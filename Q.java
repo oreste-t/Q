@@ -64,6 +64,9 @@ public class Q implements java.io.Serializable{
         _queue = new PriorityQueue<>();
         boolean e = false;
         for (int i = 0; i < _arrayQ.length; i++) {
+            if (_arrayQ[i] == null) {
+                continue;
+            }
             if(_arrayQ[i].getName().equals(name) && _arrayQ[i].getCategory().equals(category)) {
                 _arrayQ[i].update(percent);
                 e = true;
