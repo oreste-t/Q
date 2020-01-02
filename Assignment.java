@@ -47,8 +47,16 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
         if (_completion == 100) {
             result = result + " : " + _category + " : -COMPLETE-";
         } else {
-            result = result + " : " + _category + " : at " + _completion + "% " + ": due " + _due.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
+            result = result + " : " + _category + " : at " + _completion + "% " + ": due " + _due.format(DateTimeFormatter.ofPattern("LLLL dd"));;
 
+        }
+
+        if (_completion == 0) {
+            result = (ANSI_RED + result + ANSI_RESET);
+        } else if (_completion < 100) {
+            result = (ANSI_YELLOW + result + ANSI_RESET);
+        } else {
+            result = (ANSI_GREEN + result + ANSI_RESET);
         }
 
         return result;
@@ -94,5 +102,9 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
 
     private Integer _completion = 0;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
 
 }
