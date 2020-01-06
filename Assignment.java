@@ -36,8 +36,13 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
      * @param o Assignment to which this is being compared.
      * @return true if equal, false if not.
      */
-    public boolean equals( Assignment o) {
-        return o.getName().equals(this.getName()) && o.getCategory().equals(this.getCategory());
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Assignment) {
+            return ((Assignment) o).getName().equals(this.getName()) && ((Assignment) o).getCategory().equals(this.getCategory());
+        }
+        return false;
+
     }
 
     /**

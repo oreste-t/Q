@@ -9,6 +9,8 @@ public class Main {
 
         Q _queue;
         System.out.println("-----");
+        String name = "q"; // Allow input for multiple qs.
+
         try {
             FileInputStream fileIn = new FileInputStream("q.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);

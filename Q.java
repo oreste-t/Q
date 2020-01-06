@@ -7,29 +7,41 @@ import java.util.PriorityQueue;
 public class Q implements java.io.Serializable{
 
     Q(){
-        this._queue = new PriorityQueue<>();
+        this._queue = new ArrayList<>();
+        date = true;
     }
 
     /**
      * @param o Assignment that gets added to Q. Default sorted by due date.
      */
+
+    //FIXME : change to binary search
     public void push(Assignment o) {
-        this._queue.add(o);
-        this.asArray();
+        if (_queue.isEmpty()) {
+            _queue.add(o);
+            return;
+        }
+        for (int i = 0; i < _queue.size(); i++) {
+            if (o.compareTo(_queue.get(i)) == -1 || o.compareTo(_queue.get(i)) == 0) {
+                _queue.add(i, o);
+                return;
+            }
+        }
+        _queue.add(o);
     }
 
     /**
      * @return Removes and returns the element on top of the Q. Default is one due soonest.
      */
     public Assignment poll() {
-        return this._queue.poll();
+        return this._queue.remove(0);
     }
 
     /**
      * @return  returns element on top of Q without removing it.
      */
     public Assignment peek() {
-        return this._queue.peek();
+        return this._queue.get(0);
     }
 
     /**
@@ -37,17 +49,21 @@ public class Q implements java.io.Serializable{
      * Useful for printing.
      */
     public Assignment[] asArray() {
-
-        this._arrayQ =_queue.toArray(_arrayQ);
-        return _arrayQ;
+        return (Assignment[])_queue.toArray();
     }
 
     /**
-     * Wipes all contents of Q and the Array version of the Q.
+     * Wipes all contents of Q.
      */
     public void clear() {
-        this._queue.clear();
-        this._arrayQ = new Assignment[0];
+        this._queue = new ArrayList<>();
+    }
+
+    /**
+     * Toggles date on and off for printing.
+     */
+    public void toggleDate() {
+        date = !date;
     }
 
     /**
@@ -56,22 +72,8 @@ public class Q implements java.io.Serializable{
      * @return Returns true on success and false on failure of deletion.
      */
     public boolean delete(String name, String category) {
-        _queue = new PriorityQueue<>();
-        boolean e = false; // Does the inputted Assignment exist in the Q?
-        for (int i = 0; i < _arrayQ.length; i++) {
-            //If element to be deleted is found, we will not add this back into the new Q.
-            if(_arrayQ[i].getName().equals(name) && _arrayQ[i].getCategory().equals(category)) {
-                e = true;
-                continue;
-            }
-            _queue.add(_arrayQ[i]);
-        }
-        if (!e) {
-            System.out.println("Assignment with name " + name + " and category " + category + " does not exist.");
-            return false;
-        }
-        this.asArray();
-        return true;
+        Assignment rem = new Assignment(name, category, -1, -1, -1);
+        return _queue.remove(rem);
     }
 
     /**
@@ -80,53 +82,44 @@ public class Q implements java.io.Serializable{
      * @param percent int new percent completion of said assignment.
      */
     public void update(String name, String category, int percent) {
-        _queue = new PriorityQueue<>();
-        boolean e = false;
-        for (int i = 0; i < _arrayQ.length; i++) {
-            if (_arrayQ[i] == null) {
-                continue;
-            }
-            if(_arrayQ[i].getName().equals(name) && _arrayQ[i].getCategory().equals(category)) {
-                _arrayQ[i].update(percent);
-                e = true;
-            }
-            _queue.add(_arrayQ[i]);
-        }
-        if (!e) {
+
+        if (_queue.isEmpty()) {
             System.out.println("Assignment with name " + name + " and category " + category + " does not exist.");
+            return;
         }
-        this.asArray();
+
+        Assignment upd = new Assignment(name, category, -1, -1, -1);
+        for (int i = 0; i < _queue.size(); i++) {
+            if(upd.equals(_queue.get(i))) {
+                _queue.get(i).update(percent); 
+                return;
+            }
+        }
+        System.out.println("Assignment with name " + name + " and category " + category + " does not exist.");
     }
 
     @Override
     public String toString() {
 
-        if ( this._arrayQ == null || this._arrayQ.length == 0 || this._arrayQ[0] == null) {
+        if ( _queue.isEmpty()) {
             return "Q is empty \n";
         }
-        PriorityQueue<Assignment> copy = new PriorityQueue<>();
-        Assignment asmt;
+
         String complete = "";
         String result = "";
-        while (!_queue.isEmpty()) {
-            asmt = _queue.poll();
-            if (asmt == null) {
+        for (int i = 0; i < _queue.size(); i++) {
+            if (_queue.get(i).getCompletion() == 100) {
+                complete = complete + _queue.get(i).toString() + "\n";
                 continue;
             }
-            if (asmt.getCompletion() == 100) {
-                complete = complete + asmt.toString() + "\n";
-                copy.add(asmt);
-                continue;
-            }
-            result = result + asmt.toString() + "\n";
-            copy.add(asmt);
+            result = result + _queue.get(i).toString() + "\n";
         }
-        _queue = copy;
         return result + complete;
     }
 
+    private boolean date;
 
-    private PriorityQueue<Assignment> _queue;
+    private ArrayList<Assignment> _queue;
 
     private Assignment[] _arrayQ = new Assignment[0];
 
