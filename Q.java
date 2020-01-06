@@ -91,7 +91,7 @@ public class Q implements java.io.Serializable{
         Assignment upd = new Assignment(name, category, -1, -1, -1);
         for (int i = 0; i < _queue.size(); i++) {
             if(upd.equals(_queue.get(i))) {
-                _queue.get(i).update(percent); 
+                _queue.get(i).update(percent);
                 return;
             }
         }
@@ -112,9 +112,18 @@ public class Q implements java.io.Serializable{
                 complete = complete + _queue.get(i).toString() + "\n";
                 continue;
             }
-            result = result + _queue.get(i).toString() + "\n";
+            if (date) {
+                result = result + _queue.get(i).toString() + "\n";
+            } else {
+                result = result + _queue.get(i).toStringSimp() + "\n";
+            }
+
         }
         return result + complete;
+    }
+
+    public boolean getDateToggle() {
+        return date;
     }
 
     private boolean date;

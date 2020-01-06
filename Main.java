@@ -66,6 +66,13 @@ public class Main {
             } else if (arr[0].toLowerCase().equals("print")) {
                 System.out.println("-");
                 System.out.print(_queue.toString());
+            } else if (arr[0].toLowerCase().equals("toggle")) {
+                _queue.toggleDate();
+                if (_queue.getDateToggle()) {
+                    System.out.println("Date toggled on.");
+                } else {
+                    System.out.println("Date toggled off.");
+                }
             } else if (arr[0].toLowerCase().equals("update")) {
                 String[] info = arr[1].split(" ");
                 boolean success =update(_queue, info);

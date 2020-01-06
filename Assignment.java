@@ -31,6 +31,15 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
     }
 
     /**
+     * Updates percent completion of assignment.
+     * @param percent the new percent completion.
+     */
+    public void update(int percent) {
+        _completion = percent;
+    }
+
+
+    /**
      * Compares assignments to see if they are equal. Assignments are deemed equal if they
      * have the same name anc category.
      * @param o Assignment to which this is being compared.
@@ -45,14 +54,6 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
 
     }
 
-    /**
-     * Updates percent completion of assignment.
-     * @param percent the new percent completion.
-     */
-    public void update(int percent) {
-        _completion = percent;
-    }
-
     @Override
     public String toString() {
         String result = _name;
@@ -62,6 +63,25 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
             result = result + " : " + _category + " : at " + _completion + "% " + ": due "
                     + _due.format(DateTimeFormatter.ofPattern("LLLL dd"));;
 
+        }
+
+        if (_completion == 0) {
+            result = (ANSI_RED + result + ANSI_RESET);
+        } else if (_completion < 100) {
+            result = (ANSI_YELLOW + result + ANSI_RESET);
+        } else {
+            result = (ANSI_GREEN + result + ANSI_RESET);
+        }
+
+        return result;
+    }
+
+    public String toStringSimp() {
+        String result = _name;
+        if (_completion == 100) {
+            result = result + " : " + _category + " : -COMPLETE-";
+        } else {
+            result = result + " : " + _category + " : at " + _completion + "% ";
         }
 
         if (_completion == 0) {
