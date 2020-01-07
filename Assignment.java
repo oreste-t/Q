@@ -54,47 +54,68 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
 
     }
 
+    /**
+     * Creates string representation for assignment. If you wish to customize the string, call the
+     * other toString(boolean, boolean, boolean) that is below this one. Also see that comment
+     * for more info on the format of the output string.
+     * @return A string representation of the assignment. This method's output includes assignment name,
+     *      assignment category (class), completion percentage, due date. This string is color-coded by
+     *      completion percentage. See next method comment for more info.
+     */
     @Override
     public String toString() {
+        return toString(true, true, true);
+    }
+
+    /**
+     * Creates a string to represent the assignment. This string can be customized to include or
+     * not include date due, completion percentage, and color-coding by completion percentage.
+     * @param date boolean that determines whether due date should be included in the string.
+     * @param comp boolean that determines whether completion percentage should be included in the
+     *             String.
+     * @param color boolean that determines whether string should be color-coded by completion
+     *              percentage. By default, Green means complete, Yellow means started but unfinished,
+     *              and red means not started.
+     * @return returns a one-line string representation of the assignment.
+     */
+    public String toString(boolean date, boolean comp, boolean color) {
         String result = _name;
-        if (_completion == 100) {
-            result = result + " : " + _category + " : -COMPLETE-";
-        } else {
-            result = result + " : " + _category + " : at " + _completion + "% " + ": due "
-                    + _due.format(DateTimeFormatter.ofPattern("LLLL dd"));;
+        result = result + " : " + _category;
 
+        if (comp) {
+            if (_completion == 100) {
+                result = result + " : -COMPLETE-";
+            } else {
+                result = result + " : at " + _completion + "%" ;
+            }
         }
 
-        if (_completion == 0) {
-            result = (ANSI_RED + result + ANSI_RESET);
-        } else if (_completion < 100) {
-            result = (ANSI_YELLOW + result + ANSI_RESET);
-        } else {
-            result = (ANSI_GREEN + result + ANSI_RESET);
+        if (date) {
+            if (_completion != 100) {
+                result = result + " : due " + _due.format(DateTimeFormatter.ofPattern("LLLL dd"));;
+            }
         }
+
+        if (color) {
+            if (_completion == 0) {
+                result = (ANSI_RED + result + ANSI_RESET);
+            } else if (_completion < 100) {
+                result = (ANSI_YELLOW + result + ANSI_RESET);
+            } else {
+                result = (ANSI_GREEN + result + ANSI_RESET);
+            }
+        }
+
 
         return result;
     }
 
-    public String toStringSimp() {
-        String result = _name;
-        if (_completion == 100) {
-            result = result + " : " + _category + " : -COMPLETE-";
-        } else {
-            result = result + " : " + _category + " : at " + _completion + "% ";
-        }
-
-        if (_completion == 0) {
-            result = (ANSI_RED + result + ANSI_RESET);
-        } else if (_completion < 100) {
-            result = (ANSI_YELLOW + result + ANSI_RESET);
-        } else {
-            result = (ANSI_GREEN + result + ANSI_RESET);
-        }
-
-        return result;
-    }
-
+    /**
+     * Compares to assignments to see which is larger. Based on due date,
+     * which allows us to sort the Q by which assignment is due next.
+     * @param o assignment to be compared to this.
+     * @return -1 if this is due before o. 1 if otherwise.
+     */
     @Override
     public int compareTo(Assignment o) {
         boolean c = this.getDueDate().isBefore(o.getDueDate());

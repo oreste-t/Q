@@ -9,6 +9,9 @@ public class Q implements java.io.Serializable{
     Q(){
         this._queue = new ArrayList<>();
         date = true;
+        completion = true;
+        color = true;
+        sortSetting = 0;
     }
 
     /**
@@ -46,14 +49,14 @@ public class Q implements java.io.Serializable{
 
     /**
      * @return an Assignment Array equivalent of the Q.
-     * Useful for printing.
      */
     public Assignment[] asArray() {
         return (Assignment[])_queue.toArray();
     }
 
     /**
-     * Wipes all contents of Q.
+     * Wipes all contents of Q. Does not reset toggle settings
+     * to default. Only clears assignments out of Q.
      */
     public void clear() {
         this._queue = new ArrayList<>();
@@ -67,6 +70,21 @@ public class Q implements java.io.Serializable{
     }
 
     /**
+     * Toggles completion on and off for printing.
+     */
+    public void toggleCompletion() {
+        completion = !completion;
+    }
+
+    /**
+     * Toggles color on and off for printing.
+     */
+    public void toggleColor() {
+        color = !color;
+    }
+
+    /**
+     * Deletes assignment with given name and category if it exists.
      * @param name String name of the assignment to be deleted.
      * @param category String category (class) of assignment to be deleted.
      * @return Returns true on success and false on failure of deletion.
@@ -77,6 +95,7 @@ public class Q implements java.io.Serializable{
     }
 
     /**
+     * Updates percent completion of given assignment.
      * @param name String name of Assignment to update.
      * @param category String category (class) of assignment to be updated.
      * @param percent int new percent completion of said assignment.
@@ -109,14 +128,10 @@ public class Q implements java.io.Serializable{
         String result = "";
         for (int i = 0; i < _queue.size(); i++) {
             if (_queue.get(i).getCompletion() == 100) {
-                complete = complete + _queue.get(i).toString() + "\n";
+                complete = complete + _queue.get(i).toString(date, completion, color) + "\n";
                 continue;
             }
-            if (date) {
-                result = result + _queue.get(i).toString() + "\n";
-            } else {
-                result = result + _queue.get(i).toStringSimp() + "\n";
-            }
+            result = result + _queue.get(i).toString(date, completion, color) + "\n";
 
         }
         return result + complete;
@@ -126,14 +141,43 @@ public class Q implements java.io.Serializable{
         return date;
     }
 
+    public boolean getCompletionToggle() {
+        return completion;
+    }
+
+    public boolean getColorToggle() {
+        return color;
+    }
+
+    /**
+     * Determines whether date should be printed for each assignment.
+     * Can be toggled on and off.
+     */
     private boolean date;
 
+    /**
+     * Determines whether completion should be printed for each assignment.
+     * Can be toggled on and off.
+     */
+    private boolean completion;
+
+    /**
+     * Determines whether color should be printed for each assignment.
+     * Can be toggled on and off.
+     */
+    private boolean color;
+
+    /**
+     * Determines how the Q is ordered.
+     * 0 : sorted by due date
+     * 1 : sorted by completion percentage
+     * 2 : sorted by category (class)
+     * 3 : sorted by date assigned
+     */
+    private int sortSetting; //FIXME : Not yet implemented.
+
+    /**
+     * Stores all the assignments. Funnily enough, not a queue.
+     */
     private ArrayList<Assignment> _queue;
-
-    private Assignment[] _arrayQ = new Assignment[0];
-
-    private ArrayList<Assignment> _q;
-
-    //Unused for now. Plan to implement other orderings (completion, date assigned, etc)
-    private String _order = "Due Date";
 }

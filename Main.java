@@ -40,7 +40,6 @@ public class Main {
         while(true) {
             String command = input.nextLine();  // Read user input
             String arr[] = command.split(" ", 2);
-
             if (arr[0].toLowerCase().equals("add")) {
                 String[] info = arr[1].split(" ");
                 boolean success = add(_queue, info);
@@ -67,12 +66,9 @@ public class Main {
                 System.out.println("-");
                 System.out.print(_queue.toString());
             } else if (arr[0].toLowerCase().equals("toggle")) {
-                _queue.toggleDate();
-                if (_queue.getDateToggle()) {
-                    System.out.println("Date toggled on.");
-                } else {
-                    System.out.println("Date toggled off.");
-                }
+                String[] info = arr[1].split(" ");
+                toggle(_queue, info);
+
             } else if (arr[0].toLowerCase().equals("update")) {
                 String[] info = arr[1].split(" ");
                 boolean success =update(_queue, info);
@@ -97,6 +93,11 @@ public class Main {
                         "PRINT - Outputs the current contents of the Q, as well as completed assignments. Items " +
                         "further towards the top are due sooner. Typed command should be in the following format: \n" +
                         "print \n" +
+                        "\n" +
+                        "TOGGLE - Toggles date, completion percentage, or text color-coding on and off when printing " +
+                        "the assignments. Typed command should be in the following format, where setting should be " +
+                        "either date, completion, or color: \n" +
+                        "toggle setting \n" +
                         "\n" +
                         "UPDATE - Updates completion percentage of an assignment. The percentage should be a number " +
                         "between 0 and 100. At 100 percent completion, the assignment becomes complete, and is " +
@@ -154,6 +155,39 @@ public class Main {
         }
         boolean result = q.delete(input[0], input[1]);
         return result;
+    }
+
+    private static boolean toggle(Q q, String[] input) {
+        if (input.length < 1) {
+            System.out.println("Wrong format. A toggle command must be of the form: \n" +
+                    "toggle setting");
+            return false;
+        }
+        if (input[0].toLowerCase().equals("date")) {
+            q.toggleDate();
+            if (q.getDateToggle()) {
+                System.out.println("Date is toggled ON.");
+            } else {
+                System.out.println("Date is toggled OFF.");
+            }
+        } else if (input[0].toLowerCase().equals("completion")) {
+            q.toggleCompletion();
+            if (q.getCompletionToggle()) {
+                System.out.println("Completion is toggled ON.");
+            } else {
+                System.out.println("Completion is toggled OFF.");
+            }
+        } else if (input[0].toLowerCase().equals("color")) {
+            q.toggleColor();
+            if (q.getColorToggle()) {
+                System.out.println("Color is toggled ON.");
+            } else {
+                System.out.println("Color is toggled OFF.");
+            }
+        } else {
+            System.out.println("Unknown setting cannot be toggled.");
+        }
+        return true;
     }
 
     private static boolean update(Q q, String[] input) {
