@@ -18,11 +18,7 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
                int day, int year) {
 
 
-        if (month != -1 && day != -1 && year != -1) {
-            _due = LocalDate.of(year, month, day);
-        } else {
-            _due = null;
-        }
+        _due = LocalDate.of(year, month, day);
 
         _name = name;
         _category = category;
