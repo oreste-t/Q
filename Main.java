@@ -7,32 +7,29 @@ import java.util.Scanner;
 public class Main {
     public static void main(String... rawArgs) {
 
-        Q _queue;
+        // Q gets loaded into global _queue
         System.out.println("-----");
-        String name = "q"; // Allow input for multiple qs.
 
-        try {
-            FileInputStream fileIn = new FileInputStream("q.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            _queue = (Q) in.readObject();
+        System.out.println("Enter name of Q you would like to load, or name of new Q:");
+        Scanner getQ = new Scanner(System.in);
+        String qName = getQ.nextLine();  // Read user input
+        String[] temp = qName.split(" ", 2);
 
-            in.close();
-            fileIn.close();
+        String name = constructName(temp); // Allow input for multiple qs.
 
+        int interpret = load(name);
+        if ( interpret == 0) {
             System.out.println("Serialized Q located and read successfully.");
-
-        } catch (IOException i) {
-            _queue = new Q();
-            System.out.println("No serialized Q identified. New Q has been created.");
-
-        } catch (ClassNotFoundException c) {
+        } else if (interpret == 1) {
+            System.out.println("No serialized Q of name " + name +" has been identified. " +
+                    "New Q has been created.");
+        } else {
             System.out.println("Q class not found.");
-            c.printStackTrace();
-            return;
         }
 
 
 
+        System.out.println("-----");
         Scanner input = new Scanner(System.in);  // Create a Scanner object
         System.out.println("Welcome to Q. For a list of commands, type \'help\'. To exit, type \'exit\'. \n" +
                 "-----");
@@ -62,9 +59,32 @@ public class Main {
             } else if (arr[0].toLowerCase().equals("exit") || arr[0].toLowerCase().equals("quit")) {
                 System.out.println("Exiting Q . . .");
                 break;
+            } else if (arr[0].toLowerCase().equals("load")) {
+
+                boolean saveClose = save(_queue, name);
+                if (!saveClose) {
+                    System.out.println("Failed to save current Q.");
+                }
+                interpret = load(arr[1]);
+                if ( interpret == 0) {
+                    name = arr[1];
+                    System.out.println("Serialized Q located and read successfully.");
+                } else if (interpret == 1) {
+                    name = arr[1];
+                    System.out.println("No serialized Q of name " + name +" has been identified. " +
+                            "New Q has been created.");
+                } else {
+                    System.out.println("Q class not found.");
+                }
+
             } else if (arr[0].toLowerCase().equals("print")) {
                 System.out.println("-");
                 System.out.print(_queue.toString());
+            } else if (arr[0].toLowerCase().equals("save")) {
+                boolean saved = save(_queue, name);
+                if (saved) {
+                    System.out.println("Saved successfully. Serialized data is saved in "+ name +".ser.");
+                }
             } else if (arr[0].toLowerCase().equals("toggle")) {
                 String[] info = arr[1].split(" ");
                 toggle(_queue, info);
@@ -90,9 +110,18 @@ public class Main {
                         "command should be in the following format: \n" +
                         "delete name category \n" +
                         "\n" +
+                        "EXIT - Closes program. Automatically saves the Q for next session. Typed " +
+                        "command should be in the following format: \n" +
+                        "exit \n" +
+                        "\n" +
                         "PRINT - Outputs the current contents of the Q, as well as completed assignments. Items " +
                         "further towards the top are due sooner. Typed command should be in the following format: \n" +
                         "print \n" +
+                        "\n" +
+                        "SAVE - Saves Q, allowing it to be retrieved even if program terminates unexpectedly. Quitting " +
+                        "utilizing the exit or quit commands will automatically save.  Typed command should be in the " +
+                        "following format: \n" +
+                        "save \n" +
                         "\n" +
                         "TOGGLE - Toggles date, completion percentage, or text color-coding on and off when printing " +
                         "the assignments. Typed command should be in the following format, where setting should be " +
@@ -116,16 +145,43 @@ public class Main {
         // Write the queue so it is persistent between calls of main.
         try {
             FileOutputStream fileOut =
-                    new FileOutputStream("q.ser");
+                    new FileOutputStream(name + ".ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(_queue);
             out.close();
             fileOut.close();
-            System.out.println("Serialized data is saved in q.ser.");
+            System.out.println("Serialized data is saved in " + name + ".ser.");
         } catch (IOException i) {
             i.printStackTrace();
         }
 
+    }
+
+    private static String constructName(String[] nameArr) {
+        String result = "";
+        for (int i = 0; i < nameArr.length; i++) {
+            result = result + nameArr[i] + "_";
+        }
+        return result.substring(0, result.length() - 1);
+    }
+
+    private static int load(String name) {
+        try {
+            FileInputStream fileIn = new FileInputStream(name + ".ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            _queue = (Q) in.readObject();
+
+            in.close();
+            fileIn.close();
+            return 0;
+        } catch (IOException i) {
+            _queue = new Q();
+            save(_queue, name);
+            return 1;
+        } catch (ClassNotFoundException c) {
+            c.printStackTrace();
+            return 2;
+        }
     }
 
     private static boolean add(Q q, String[] input) {
@@ -155,6 +211,20 @@ public class Main {
         }
         boolean result = q.delete(input[0], input[1]);
         return result;
+    }
+
+    private static boolean save(Q q, String name) {
+        try {
+            FileOutputStream fileOut =
+                    new FileOutputStream(name + ".ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(q);
+            out.close();
+            fileOut.close();
+            return true;
+        } catch (IOException i) {
+            return false;
+        }
     }
 
     private static boolean toggle(Q q, String[] input) {
@@ -212,4 +282,5 @@ public class Main {
         }
     }
 
+    private static Q _queue;
 }
