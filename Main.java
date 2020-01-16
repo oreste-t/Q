@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String... rawArgs) {
 
-        // Q gets loaded into global _queue
+
         System.out.println("-----");
 
         System.out.println("Enter name of Q you would like to load, or name of new Q:");
@@ -98,49 +98,8 @@ public class Main {
                     System.out.print(_queue.toString());
                 }
             } else if (arr[0].toLowerCase().equals("help")) {
-                String help = "Commands: \n" +
-                        "ADD - Adds an assignment to the Q. Assignment must have a name, a category (class/topic), " +
-                        "and a due date. Typed command should be in the following format: \n" +
-                        " add name category MM DD YYYY \n" +
-                        "\n" +
-                        "CLEAR - wipes the Q completely. Typed command should be in the following format: \n" +
-                        " clear \n" +
-                        "\n" +
-                        "DELETE - deletes all elements from the queue that have the given name and category. Typed " +
-                        "command should be in the following format: \n" +
-                        " delete name category \n" +
-                        "\n" +
-                        "EXIT - Closes program. Automatically saves the Q for next session. Typed " +
-                        "command should be in the following format: \n" +
-                        " exit \n" +
-                        "\n" +
-                        "LOAD - Loads an existing Q, or if the given name is not the name of an existing Q, a new Q " +
-                        "with that name is created. If a Q is currently open when this command is used, that Q will " +
-                        "automatically be saved before being closed and before the new Q is loaded up. Typed command " +
-                        "should be in the following format: \n" +
-                        " load name \n" +
-                        "\n" +
-                        "PRINT - Outputs the current contents of the Q, as well as completed assignments. Items " +
-                        "further towards the top are due sooner. Typed command should be in the following format: \n" +
-                        " print \n" +
-                        "\n" +
-                        "SAVE - Saves Q, allowing it to be retrieved even if program terminates unexpectedly. Quitting " +
-                        "utilizing the exit or quit commands will automatically save.  Typed command should be in the " +
-                        "following format: \n" +
-                        " save \n" +
-                        "\n" +
-                        "TOGGLE - Toggles date, completion percentage, or text color-coding on and off when printing " +
-                        "the assignments. Typed command should be in the following format, where setting should be " +
-                        "either date, completion, or color: \n" +
-                        " toggle setting \n" +
-                        "\n" +
-                        "UPDATE - Updates completion percentage of an assignment. The percentage should be a number " +
-                        "between 0 and 100. At 100 percent completion, the assignment becomes complete, and is " +
-                        "placed at the bottom of the Q with other completed assignments. Typed command should be " +
-                        "in the following " +
-                        "format: \n" +
-                        " update name category percent";
-                System.out.println(help);
+
+                System.out.println(HELP);
             } else {
                 System.out.println("Unrecognized command. Type \'help\' for a list of commands.");
             }
@@ -162,6 +121,12 @@ public class Main {
         }
 
     }
+
+
+
+
+
+
 
     private static String constructName(String[] nameArr) {
         String result = "";
@@ -294,5 +259,54 @@ public class Main {
         }
     }
 
+
+
+
+
+    
+
     private static Q _queue;
+
+    private static String HELP = "Commands: \n" +
+            "ADD - Adds an assignment to the Q. Assignment must have a name, a category (class/topic), " +
+            "and a due date. Typed command should be in the following format: \n" +
+            " add name category MM DD YYYY \n" +
+            "\n" +
+            "CLEAR - wipes the Q completely. Typed command should be in the following format: \n" +
+            " clear \n" +
+            "\n" +
+            "DELETE - deletes all elements from the queue that have the given name and category. Typed " +
+            "command should be in the following format: \n" +
+            " delete name category \n" +
+            "\n" +
+            "EXIT - Closes program. Automatically saves the Q for next session. Typed " +
+            "command should be in the following format: \n" +
+            " exit \n" +
+            "\n" +
+            "LOAD - Loads an existing Q, or if the given name is not the name of an existing Q, a new Q " +
+            "with that name is created. If a Q is currently open when this command is used, that Q will " +
+            "automatically be saved before being closed and before the new Q is loaded up. Typed command " +
+            "should be in the following format: \n" +
+            " load name \n" +
+            "\n" +
+            "PRINT - Outputs the current contents of the Q, as well as completed assignments. Items " +
+            "further towards the top are due sooner. Typed command should be in the following format: \n" +
+            " print \n" +
+            "\n" +
+            "SAVE - Saves Q, allowing it to be retrieved even if program terminates unexpectedly. Quitting " +
+            "utilizing the exit or quit commands will automatically save.  Typed command should be in the " +
+            "following format: \n" +
+            " save \n" +
+            "\n" +
+            "TOGGLE - Toggles date, completion percentage, or text color-coding on and off when printing " +
+            "the assignments. Typed command should be in the following format, where setting should be " +
+            "either date, completion, or color: \n" +
+            " toggle setting \n" +
+            "\n" +
+            "UPDATE - Updates completion percentage of an assignment. The percentage should be a number " +
+            "between 0 and 100. At 100 percent completion, the assignment becomes complete, and is " +
+            "placed at the bottom of the Q with other completed assignments. Typed command should be " +
+            "in the following " +
+            "format: \n" +
+            " update name category percent";
 }
