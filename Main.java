@@ -5,6 +5,15 @@ import java.util.Scanner;
 
 
 public class Main {
+
+    /**
+     * Prompts the user for the name of a Q to load. If no Q exists with given name,
+     * one will be created. Once a Q is loaded or created, the program enters a loop where
+     * the user is continuously prompted for input commands (which can be viewed with the
+     * help command). The program then executes the given commands, and restarts the loop.
+     * This continues until the user inputs an exit command, at which point whatever Q that
+     * is open is automatically saved and the program terminates.
+     */
     public static void main(String... rawArgs) {
 
 
@@ -111,10 +120,16 @@ public class Main {
         }
     }
 
-
-
-
-
+    /**
+     * Adds an assignment to the Q. Also check for input to be the correct format and
+     * prints error messages if input is not correct.
+     * @param q the currently opened Q to which the assignment should be added.
+     * @param input a string array constructed from user input. Item 0 should be the name
+     *              of the new assignment, item 1 should be the category (class), item 2
+     *              should be month of due date, item 3 should be day of due date, item
+     *              4 should be year of due date.
+     * @return boolean where true means addition was successful and false means it was not.
+     */
     private static boolean add(Q q, String[] input) {
         if (input.length < 5) {
             System.out.println("Wrong format. An add command must be of the form: \n" +
@@ -140,6 +155,13 @@ public class Main {
         }
     }
 
+    /**
+     * Deletes assignment from Q.
+     * @param q Q from which assignment should be deleted.
+     * @param input String array constructed from user input. First item should be name of assignment,
+     *              second item should be category (class) of assignment to be deleted.
+     * @return boolean where true means deletion was successful and false means it was not.
+     */
     private static boolean delete(Q q, String[] input) {
         if (input.length < 2) {
             System.out.println("Wrong format. A delete command must be of the form: \n" +
@@ -149,7 +171,14 @@ public class Main {
         boolean result = q.delete(input[0], input[1]); //FIXME : Have delete throw a custom error type.
         return result;
     }
-    
+
+    /**
+     * Loads an existing Q into the main program thread, allowing operations to be
+     * performed on it.
+     * @param name String name of the Q to be loaded.
+     * @return returns 0 if load was successful, 1 if no Q with given name was found,
+     *         and 2 if there is a ClassNotFoundException.
+     */
     private static int load(String name) {
         try {
             FileInputStream fileIn = new FileInputStream(name + ".ser");
@@ -169,6 +198,12 @@ public class Main {
         }
     }
 
+    /**
+     * Serializes the Q in order to save its contents for later use.
+     * @param q Q to be written/saved.
+     * @param name Name that the Q should be save to.
+     * @return boolean where true means save was successful and false means it was not.
+     */
     private static boolean save(Q q, String name) {
         try {
             FileOutputStream fileOut =
@@ -184,6 +219,14 @@ public class Main {
         }
     }
 
+    /**
+     * Toggles either due date, completion percentage, or color for printing of the Q.
+     * @param q Q where setting should be toggled.
+     * @param input string array where the first item should be the setting to be toggled.
+     *              Setting should be either date, completion, or color. Subsequent elements
+     *              in the array will be ignored.
+     * @return boolean where true means toggle was successful and false means it was not.
+     */
     private static boolean toggle(Q q, String[] input) {
         if (input.length < 1) {
             System.out.println("Wrong format. A toggle command must be of the form: \n" +
@@ -217,6 +260,15 @@ public class Main {
         return true;
     }
 
+    /**
+     * Updates completion percentage of an assignment in the Q.
+     * @param q Q that contains assignment to be updated.
+     * @param input String array where the first item should be the name of the assignment
+     *              to be update. Second item should be category (class) of assignment.
+     *              Third item should be number of new completion percentage between 0 and
+     *              100, inclusive.
+     * @return boolean where true means update was successful and false means it was not.
+     */
     private static boolean update(Q q, String[] input) {
         try {
 
@@ -239,6 +291,11 @@ public class Main {
         }
     }
 
+    /**
+     * Fixes inputted name for serialized file.
+     * @param nameArr User-inputted name for Q to be serialized.
+     * @return String name but with spaces replaced with _
+     */
     private static String constructName(String[] nameArr) {
         String result = "";
         for (int i = 0; i < nameArr.length; i++) {
@@ -247,8 +304,14 @@ public class Main {
         return result.substring(0, result.length() - 1);
     }
 
+    /**
+     * The Q object to which we load the currently opened Q.
+     */
     private static Q _queue;
 
+    /**
+     * Help printout with info on all implemented commands available to users.
+     */
     private static String HELP = "Commands: \n" +
             "ADD - Adds an assignment to the Q. Assignment must have a name, a category (class/topic), " +
             "and a due date. Typed command should be in the following format: \n" +

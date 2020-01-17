@@ -153,6 +153,4 @@ public class QTest {
         qu.delete("HW4", "CS188");
         assertEquals("Incorrect length.", 4, qu.length());
     }
-
-
 }

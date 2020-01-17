@@ -8,6 +8,11 @@ import java.util.Comparator;
  */
 public class Q implements java.io.Serializable{
 
+    /**
+     * Default constructor. Date, completion percentage, and color are all toggled on
+     * for printing by default. Sort setting is set to 0, thus the Q is sorted by
+     * due date, with the assignments which are due sooner near the top.
+     */
     Q(){
         _queue = new ArrayList<>();
         date = true;
@@ -19,7 +24,6 @@ public class Q implements java.io.Serializable{
     /**
      * @param o Assignment that gets added to Q. Default sorted by due date.
      */
-    //FIXME : Change to binary search for improved runtime.
     public void push(Assignment o) {
         if (_queue.isEmpty()) {
             _queue.add(o);
@@ -36,6 +40,7 @@ public class Q implements java.io.Serializable{
             order = new byAssnd();
         }
 
+        //FIXME : Change to binary search for improved runtime.
         int i = 0;
         while (i < _queue.size() && order.compare(o, _queue.get(i)) > 0) {
             i++;
