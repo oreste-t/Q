@@ -121,6 +121,8 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
         return 1;
     }
 
+
+
     /**
      * Gets due date. Accessor method.
      * @return Date at which assignment is due.
@@ -151,6 +153,14 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
      */
     int getCompletion() {
         return _completion;
+    }
+
+    /**
+     * Gets date assigned. Accessor method.
+     * @return Date at which assignment was assigned.
+     */
+    LocalDate getAssigned() {
+        return _assigned;
     }
 
     /** Due Date of this assignment. */

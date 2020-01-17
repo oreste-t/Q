@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/** Unit tests for the Graph class.
+/** Unit tests for the Assignment class.
  *  @author O Turchetti
  */
 public class AssignmentTest {
@@ -34,10 +34,6 @@ public class AssignmentTest {
 
 
     }
-
-
-
-
 }
 
 

@@ -1,13 +1,12 @@
-
-
 import java.util.ArrayList;
-import java.util.PriorityQueue;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class Q implements java.io.Serializable{
 
     Q(){
-        this._queue = new ArrayList<>();
+        _queue = new ArrayList<>();
         date = true;
         completion = true;
         color = true;
@@ -18,7 +17,7 @@ public class Q implements java.io.Serializable{
      * @param o Assignment that gets added to Q. Default sorted by due date.
      */
 
-    //FIXME : change to binary search
+    //FIXME : Change to binary search for improved runtime.
     public void push(Assignment o) {
         if (_queue.isEmpty()) {
             _queue.add(o);
@@ -45,6 +44,13 @@ public class Q implements java.io.Serializable{
      */
     public Assignment peek() {
         return this._queue.get(0);
+    }
+
+    /**
+     * @return  returns element at index i without removing it..
+     */
+    public Assignment get(int i) {
+        return this._queue.get(i);
     }
 
     /**
@@ -117,6 +123,22 @@ public class Q implements java.io.Serializable{
         System.out.println("Assignment with name " + name + " and category " + category + " does not exist.");
     }
 
+    public void sort(int sortSetting) {
+        if (sortSetting == 0) {
+            byDue alpha = new byDue();
+            Collections.sort(_queue, alpha);
+        } else if (sortSetting == 1) {
+            byComp bravo = new byComp();
+            Collections.sort(_queue, bravo);
+        } else if (sortSetting == 2) {
+            byCat charlie = new byCat();
+            Collections.sort(_queue, charlie);
+        } else if (sortSetting == 3) {
+            byAssnd delta = new byAssnd();
+            Collections.sort(_queue, delta);
+        }
+    }
+
     @Override
     public String toString() {
 
@@ -149,6 +171,40 @@ public class Q implements java.io.Serializable{
         return color;
     }
 
+
+    private class byDue implements Comparator<Assignment> {
+        @Override
+        public int compare(Assignment o1, Assignment o2) {
+            return o1.getDueDate().compareTo(o2.getDueDate());
+        }
+    }
+
+    private class byComp implements Comparator<Assignment> {
+        @Override
+        public int compare(Assignment o1, Assignment o2) {
+            if (o1.getCompletion() > o2.getCompletion()) {
+                return 1;
+            } else if (o1.getCompletion() == o2.getCompletion()) {
+                return 0;
+            }
+            return -1;
+        }
+    }
+
+    private class byCat implements Comparator<Assignment> {
+        @Override
+        public int compare(Assignment o1, Assignment o2) {
+            return o1.getCategory().compareTo(o2.getCategory());
+        }
+    }
+
+    private class byAssnd implements Comparator<Assignment> {
+        @Override
+        public int compare(Assignment o1, Assignment o2) {
+            return o1.getAssigned().compareTo(o2.getAssigned());
+        }
+    }
+
     /**
      * Determines whether date should be printed for each assignment.
      * Can be toggled on and off.
@@ -177,7 +233,8 @@ public class Q implements java.io.Serializable{
     private int sortSetting; //FIXME : Not yet implemented.
 
     /**
-     * Stores all the assignments. Funnily enough, not a queue.
+     * Stores all the assignments. Funnily enough, not a queue, but calling the program
+     * ArrayList doesn't fit quite as well as Q/Queue.
      */
     private ArrayList<Assignment> _queue;
 }
