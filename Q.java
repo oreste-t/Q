@@ -140,10 +140,10 @@ public class Q implements java.io.Serializable{
         for (int i = 0; i < _queue.size(); i++) {
             if(upd.equals(_queue.get(i))) {
                 _queue.get(i).update(percent);
+                sort(sortSetting);
                 return;
             }
         }
-
         System.out.println("Assignment with name " + name + " and category " + category + " does not exist.");
     }
 
@@ -167,6 +167,27 @@ public class Q implements java.io.Serializable{
             order = new byAssnd();
         }
         Collections.sort(_queue, order);
+    }
+
+    /**
+     * Sets the sortSetting, which determines what order the Q is sorted
+     * by. See the docstring for the sortSetting variable for more info.
+     * If the value is set successfully, the Q will be resorted to reflect
+     * the new ordering required.
+     * @param setting An int between 0 and 3, inclusive. See docstring for
+     *                sortSetting variable below for info on each of these
+     *                4 settings.
+     * @return boolean where true means the inputted number was valid and
+     * the sortSetting was changed. False if it was an invalid number and
+     * thus sortSetting was not changed.
+     */
+    public boolean setSortSetting(int setting) {
+        if (setting < 4 && setting >= 0) {
+            sortSetting = setting;
+            sort(sortSetting);
+            return true;
+        }
+        return false;
     }
 
     @Override
