@@ -32,6 +32,13 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
         _completion = percent;
     }
 
+    /**
+     * Modifies date the assignment was assigned. Default date assigned is the date
+     * at which the Assignment object is initialized.
+     */
+    public void modifyDateAssigned(int month, int day, int year) {
+        _assigned = LocalDate.of(year, month, day);
+    }
 
     /**
      * Compares assignments to see if they are equal. Assignments are deemed equal if they
