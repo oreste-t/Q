@@ -44,6 +44,13 @@ public class Q implements java.io.Serializable{
     }
 
     /**
+     * @return length of Q.
+     */
+    public int length() {
+        return _queue.size();
+    }
+
+    /**
      * @return Removes and returns the element on top of the Q. Default is one due soonest.
      */
     public Assignment poll() {
