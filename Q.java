@@ -36,13 +36,11 @@ public class Q implements java.io.Serializable{
             order = new byAssnd();
         }
 
-        for (int i = 0; i < _queue.size(); i++) {
-            if (order.compare(o, _queue.get(i)) == -1 || order.compare(o, _queue.get(i)) == 0) {
-                _queue.add(i, o);
-                return;
-            }
+        int i = 0;
+        while (i < _queue.size() && order.compare(o, _queue.get(i)) > 0) {
+            i++;
         }
-        _queue.add(o);
+        _queue.add(i, o);
     }
 
     /**

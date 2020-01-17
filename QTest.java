@@ -25,11 +25,11 @@ public class QTest {
         qu.push(delta);
         qu.push(echo);
 
-        assertEquals("Incorrect ordering.", "HW1 CS10", qu.get(0).getName() + " " + qu.get(0).getCategory());
-        assertEquals("Incorrect ordering.", "notes CS188", qu.get(1).getName() + " " + qu.get(1).getCategory());
-        assertEquals("Incorrect ordering.", "syllabus ESPM10", qu.get(2).getName() + " " + qu.get(2).getCategory());
-        assertEquals("Incorrect ordering.", "HW1 CS188", qu.get(3).getName() + " " + qu.get(3).getCategory());
-        assertEquals("Incorrect ordering.", "HW2 CS10", qu.get(4).getName() + " " + qu.get(4).getCategory());
+        assertEquals("Incorrect ordering.", alpha, qu.get(0));
+        assertEquals("Incorrect ordering.", charlie, qu.get(1));
+        assertEquals("Incorrect ordering.", echo, qu.get(2));
+        assertEquals("Incorrect ordering.", delta, qu.get(3));
+        assertEquals("Incorrect ordering.", bravo, qu.get(4));
 
         qu.sort(2);
 
