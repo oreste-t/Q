@@ -17,10 +17,10 @@ public class Main {
 
         String name = constructName(temp); // Allow input for multiple qs.
 
-        int interpret = load(name);
-        if ( interpret == 0) {
+        int marker = load(name);
+        if (marker == 0) {
             System.out.println("Serialized Q located and read successfully.");
-        } else if (interpret == 1) {
+        } else if (marker == 1) {
             System.out.println("No serialized Q of name " + name +" has been identified. " +
                     "New Q has been created.");
         } else {
@@ -34,12 +34,13 @@ public class Main {
         System.out.println("Welcome to Q. For a list of commands, type \'help\'. To exit, type \'exit\'. \n" +
                 "-----");
 
+        boolean success;
         while(true) {
             String command = input.nextLine();  // Read user input
             String arr[] = command.split(" ", 2);
             if (arr[0].toLowerCase().equals("add")) {
                 String[] info = arr[1].split(" ");
-                boolean success = add(_queue, info);
+                success = add(_queue, info);
                 if (success) {
                     System.out.println("Addition Successful.");
                     System.out.println("-");
@@ -50,7 +51,7 @@ public class Main {
                 System.out.println("Q has been wiped.");
             } else if (arr[0].toLowerCase().equals("delete")) {
                 String[] info = arr[1].split(" ");
-                boolean success = delete(_queue, info);
+                success = delete(_queue, info);
                 if (success) {
                     System.out.println("Deletion Successful.");
                     System.out.println("-");
@@ -60,23 +61,23 @@ public class Main {
                 System.out.println("Exiting Q . . .");
                 break;
             } else if (arr[0].toLowerCase().equals("load")) {
-
-                boolean saveClose = save(_queue, name);
-                if (!saveClose) {
+                if (save(_queue, name)) {
+                    System.out.println("Serialized data is saved in " + name + ".ser.");
+                } else {
                     System.out.println("Failed to save current Q.");
+                    break;
                 }
-                interpret = load(arr[1]);
-                if ( interpret == 0) {
+                marker = load(arr[1]);
+                if (marker == 0) {
                     name = arr[1];
                     System.out.println("Serialized Q located and read successfully.");
-                } else if (interpret == 1) {
+                } else if (marker == 1) {
                     name = arr[1];
                     System.out.println("No serialized Q of name " + name +" has been identified. " +
                             "New Q has been created.");
                 } else {
                     System.out.println("Q class not found.");
                 }
-
             } else if (arr[0].toLowerCase().equals("print")) {
                 System.out.println("-");
                 System.out.print(_queue.toString());
@@ -91,14 +92,13 @@ public class Main {
 
             } else if (arr[0].toLowerCase().equals("update")) {
                 String[] info = arr[1].split(" ");
-                boolean success =update(_queue, info);
+                success = update(_queue, info);
                 if (success) {
                     System.out.println("Update successful.");
                     System.out.println("-");
                     System.out.print(_queue.toString());
                 }
             } else if (arr[0].toLowerCase().equals("help")) {
-
                 System.out.println(HELP);
             } else {
                 System.out.println("Unrecognized command. Type \'help\' for a list of commands.");
@@ -106,36 +106,50 @@ public class Main {
             System.out.println("-----");
         }
 
-
-        // Write the queue so it is persistent between calls of main.
-        try {
-            FileOutputStream fileOut =
-                    new FileOutputStream(name + ".ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(_queue);
-            out.close();
-            fileOut.close();
+        if (save(_queue, name)) {
             System.out.println("Serialized data is saved in " + name + ".ser.");
-        } catch (IOException i) {
-            i.printStackTrace();
         }
-
     }
 
 
 
 
 
-
-
-    private static String constructName(String[] nameArr) {
-        String result = "";
-        for (int i = 0; i < nameArr.length; i++) {
-            result = result + nameArr[i] + "_";
+    private static boolean add(Q q, String[] input) {
+        if (input.length < 5) {
+            System.out.println("Wrong format. An add command must be of the form: \n" +
+                    "add name category MM DD YYYY");
+            return false;
         }
-        return result.substring(0, result.length() - 1);
+        try {
+            Assignment alpha = new Assignment(input[0], input[1], Integer.parseInt(input[2]),
+                    Integer.parseInt(input[3]), Integer.parseInt(input[4]));
+            q.push(alpha);
+            return true;
+        } catch (NumberFormatException e) {
+            System.out.println("Date must be properly formatted and consist only of numbers. An add command \n" +
+                    "must be of the form:" +
+                    "add name category MM DD YYYY");
+            return false;
+        } catch (java.time.DateTimeException f) {
+            System.out.println("Date must be properly formatted and consist only of numbers. An add command \n" +
+                    "must be of the form:" +
+                    "\n add name category MM DD YYYY");
+            System.out.println("Make sure your inputted month and date exist.");
+            return false;
+        }
     }
 
+    private static boolean delete(Q q, String[] input) {
+        if (input.length < 2) {
+            System.out.println("Wrong format. A delete command must be of the form: \n" +
+                    "delete name category");
+            return false;
+        }
+        boolean result = q.delete(input[0], input[1]); //FIXME : Have delete throw a custom error type.
+        return result;
+    }
+    
     private static int load(String name) {
         try {
             FileInputStream fileIn = new FileInputStream(name + ".ser");
@@ -155,41 +169,6 @@ public class Main {
         }
     }
 
-    private static boolean add(Q q, String[] input) {
-        if (input.length < 5) {
-            System.out.println("Wrong format. An add command must be of the form: \n" +
-                    "add name category MM DD YYYY");
-            return false;
-        }
-        try {
-            Assignment alpha = new Assignment(input[0], input[1], Integer.parseInt(input[2]), Integer.parseInt(input[3]), Integer.parseInt(input[4]));
-            q.push(alpha);
-            return true;
-        } catch (NumberFormatException e) {
-            System.out.println("Date must be properly formatted and consist only of numbers. An add command \n" +
-                    "must be of the form:" +
-                    "add name category MM DD YYYY");
-            return false;
-        } catch (java.time.DateTimeException f) {
-            System.out.println("Date must be properly formatted and consist only of numbers. An add command \n" +
-                    "must be of the form:" +
-                    "\n add name category MM DD YYYY");
-            System.out.println("Make sure your inputted month and date exist.");
-            return false;
-        }
-
-    }
-
-    private static boolean delete(Q q, String[] input) {
-        if (input.length < 2) {
-            System.out.println("Wrong format. A delete command must be of the form: \n" +
-                    "delete name category");
-            return false;
-        }
-        boolean result = q.delete(input[0], input[1]);
-        return result;
-    }
-
     private static boolean save(Q q, String name) {
         try {
             FileOutputStream fileOut =
@@ -200,6 +179,7 @@ public class Main {
             fileOut.close();
             return true;
         } catch (IOException i) {
+            i.printStackTrace();
             return false;
         }
     }
@@ -259,11 +239,13 @@ public class Main {
         }
     }
 
-
-
-
-
-    
+    private static String constructName(String[] nameArr) {
+        String result = "";
+        for (int i = 0; i < nameArr.length; i++) {
+            result = result + nameArr[i] + "_";
+        }
+        return result.substring(0, result.length() - 1);
+    }
 
     private static Q _queue;
 
