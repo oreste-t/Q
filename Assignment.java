@@ -1,9 +1,10 @@
 
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.time.*;
-import java.io.*;
 
+/** Assignment class. Stores basic metadata of an assignment.
+ *  @author O Turchetti
+ */
 public class Assignment implements Comparable<Assignment>, java.io.Serializable{
     /**
      * Constructs an assignment.
@@ -47,7 +48,6 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
             return ((Assignment) o).getName().equals(this.getName()) && ((Assignment) o).getCategory().equals(this.getCategory());
         }
         return false;
-
     }
 
     /**
@@ -101,8 +101,6 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
                 result = (ANSI_GREEN + result + ANSI_RESET);
             }
         }
-
-
         return result;
     }
 
@@ -120,8 +118,6 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
         }
         return 1;
     }
-
-
 
     /**
      * Gets due date. Accessor method.

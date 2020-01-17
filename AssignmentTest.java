@@ -1,7 +1,4 @@
-
-
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 /** Unit tests for the Assignment class.
@@ -14,7 +11,6 @@ public class AssignmentTest {
         Assignment alpha = new Assignment("HW10", "CS61a",
                 -1, -1, -1);
         assertEquals("Incorrect Name", "HW10", alpha.getName());
-
     }
 
     @Test
@@ -31,8 +27,6 @@ public class AssignmentTest {
         Assignment echo = new Assignment("Notes 17.2", "CS170", 7, 20, 2019);
         delta.push(echo);
         assertEquals("Incorrect Order", echo.getName(), delta.peek().getName());
-
-
     }
 }
 

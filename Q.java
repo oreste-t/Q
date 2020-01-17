@@ -2,7 +2,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-
+/** Q class. Holds Assignments and allows for operations to
+ * be performed on their representation.
+ *  @author O Turchetti
+ */
 public class Q implements java.io.Serializable{
 
     Q(){
@@ -16,7 +19,6 @@ public class Q implements java.io.Serializable{
     /**
      * @param o Assignment that gets added to Q. Default sorted by due date.
      */
-
     //FIXME : Change to binary search for improved runtime.
     public void push(Assignment o) {
         if (_queue.isEmpty()) {
@@ -120,6 +122,7 @@ public class Q implements java.io.Serializable{
                 return;
             }
         }
+
         System.out.println("Assignment with name " + name + " and category " + category + " does not exist.");
     }
 
@@ -130,7 +133,6 @@ public class Q implements java.io.Serializable{
      *  1 : sorted by completion percentage
      *  2 : sorted by category (class)
      *  3 : sorted by date assigned
-     *
      */
     public void sort(int sortSetting) {
         if (sortSetting == 0) {
@@ -163,7 +165,6 @@ public class Q implements java.io.Serializable{
                 continue;
             }
             result = result + _queue.get(i).toString(date, completion, color) + "\n";
-
         }
         return result + complete;
     }
@@ -262,7 +263,7 @@ public class Q implements java.io.Serializable{
      * 2 : sorted by category (class)
      * 3 : sorted by date assigned
      */
-    private int sortSetting; 
+    private int sortSetting;
 
     /**
      * Stores all the assignments. Funnily enough, not a queue, but calling the program

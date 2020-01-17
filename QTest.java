@@ -1,11 +1,9 @@
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 /** Unit tests for the Q class.
  *  @author O Turchetti
  */
-
 public class QTest {
 
     @Test
@@ -40,9 +38,6 @@ public class QTest {
         assertEquals("Incorrect ordering.", "CS188", qu.get(2).getCategory());
         assertEquals("Incorrect ordering.", "CS188", qu.get(3).getCategory());
         assertEquals("Incorrect ordering.", "ESPM10", qu.get(4).getCategory());
-
-
-
     }
 
 
