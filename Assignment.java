@@ -18,13 +18,10 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
     Assignment(String name, String category, int month,
                int day, int year) {
 
-
         _due = LocalDate.of(year, month, day);
-
         _name = name;
         _category = category;
         _assigned = LocalDate.now();
-
     }
 
     /**
@@ -45,7 +42,8 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
     @Override
     public boolean equals(Object o) {
         if (o instanceof Assignment) {
-            return ((Assignment) o).getName().equals(this.getName()) && ((Assignment) o).getCategory().equals(this.getCategory());
+            return ((Assignment) o).getName().equals(this.getName()) &&
+                    ((Assignment) o).getCategory().equals(this.getCategory());
         }
         return false;
     }
@@ -106,7 +104,9 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
 
     /**
      * Compares to assignments to see which is larger. Based on due date,
-     * which allows us to sort the Q by which assignment is due next.
+     * which allows us to sort the Q by which assignment is due next. This WILL
+     * NOT be used by the Q when sorting, as it is overrided by a custom comparator
+     * depending on the sort setting.
      * @param o assignment to be compared to this.
      * @return -1 if this is due before o. 1 if otherwise.
      */
@@ -169,7 +169,6 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
     private String _category;
 
     /** Date on which the assignment was assigned. */
-    //Currently unused, but planned as a way to sort Q.
     private LocalDate _assigned;
 
     /** Percent of Assignment completed. */
