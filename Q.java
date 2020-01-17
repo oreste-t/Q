@@ -140,7 +140,28 @@ public class Q implements java.io.Serializable{
         for (int i = 0; i < _queue.size(); i++) {
             if(upd.equals(_queue.get(i))) {
                 _queue.get(i).update(percent);
-                sort(sortSetting);
+                if (sortSetting == 1) {
+                    sort(sortSetting);
+                }
+                return;
+            }
+        }
+        System.out.println("Assignment with name " + name + " and category " + category + " does not exist.");
+    }
+
+    public void updateAssnd(String name, String category, int month, int day, int year) {
+        if (_queue.isEmpty()) {
+            System.out.println("Assignment with name " + name + " and category " + category + " does not exist.");
+            return;
+        }
+
+        Assignment upd = new Assignment(name, category, 1, 1, 2020);
+        for (int i = 0; i < _queue.size(); i++) {
+            if(upd.equals(_queue.get(i))) {
+                _queue.get(i).modifyDateAssigned(month, day, year);
+                if (sortSetting == 3) {
+                    sort(sortSetting);
+                }
                 return;
             }
         }
