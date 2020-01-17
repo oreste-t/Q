@@ -25,8 +25,19 @@ public class Q implements java.io.Serializable{
             _queue.add(o);
             return;
         }
+        Comparator order;
+        if (sortSetting == 0) {
+            order = new byDue();
+        } else if (sortSetting == 1) {
+            order = new byComp();
+        } else if (sortSetting == 2) {
+            order = new byCat();
+        } else {
+            order = new byAssnd();
+        }
+
         for (int i = 0; i < _queue.size(); i++) {
-            if (o.compareTo(_queue.get(i)) == -1 || o.compareTo(_queue.get(i)) == 0) {
+            if (order.compare(o, _queue.get(i)) == -1 || order.compare(o, _queue.get(i)) == 0) {
                 _queue.add(i, o);
                 return;
             }
@@ -135,19 +146,17 @@ public class Q implements java.io.Serializable{
      *  3 : sorted by date assigned
      */
     public void sort(int sortSetting) {
+        Comparator order;
         if (sortSetting == 0) {
-            byDue alpha = new byDue();
-            Collections.sort(_queue, alpha);
+            order = new byDue();
         } else if (sortSetting == 1) {
-            byComp bravo = new byComp();
-            Collections.sort(_queue, bravo);
+            order = new byComp();
         } else if (sortSetting == 2) {
-            byCat charlie = new byCat();
-            Collections.sort(_queue, charlie);
-        } else if (sortSetting == 3) {
-            byAssnd delta = new byAssnd();
-            Collections.sort(_queue, delta);
+            order = new byCat();
+        } else {
+            order = new byAssnd();
         }
+        Collections.sort(_queue, order);
     }
 
     @Override
