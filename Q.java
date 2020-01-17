@@ -109,7 +109,7 @@ public class Q implements java.io.Serializable{
      * @return Returns true on success and false on failure of deletion.
      */
     public boolean delete(String name, String category) {
-        Assignment rem = new Assignment(name, category, -1, -1, -1);
+        Assignment rem = new Assignment(name, category, 1, 1, 2020);
         return _queue.remove(rem);
     }
 
@@ -126,7 +126,7 @@ public class Q implements java.io.Serializable{
             return;
         }
 
-        Assignment upd = new Assignment(name, category, -1, -1, -1);
+        Assignment upd = new Assignment(name, category, 1, 1, 2020);
         for (int i = 0; i < _queue.size(); i++) {
             if(upd.equals(_queue.get(i))) {
                 _queue.get(i).update(percent);
