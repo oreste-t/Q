@@ -123,6 +123,15 @@ public class Q implements java.io.Serializable{
         System.out.println("Assignment with name " + name + " and category " + category + " does not exist.");
     }
 
+    /**
+     * Sorts the Q according to a sort setting.
+     * @param sortSetting is denoted as follows:
+     *  0 : sorted by due date
+     *  1 : sorted by completion percentage
+     *  2 : sorted by category (class)
+     *  3 : sorted by date assigned
+     *
+     */
     public void sort(int sortSetting) {
         if (sortSetting == 0) {
             byDue alpha = new byDue();
@@ -159,19 +168,33 @@ public class Q implements java.io.Serializable{
         return result + complete;
     }
 
+    /**
+     * Accessor method.
+     * @return boolean that denotes whether due date is toggled on or off.
+     */
     public boolean getDateToggle() {
         return date;
     }
 
+    /**
+     * Accessor method.
+     * @return boolean that denotes whether completion is toggled on or off.
+     */
     public boolean getCompletionToggle() {
         return completion;
     }
 
+    /**
+     * Accessor method.
+     * @return boolean that denotes whether print color is toggled on or off.
+     */
     public boolean getColorToggle() {
         return color;
     }
 
-
+    /**
+     * Comparator class that allows for sorting of the Q by due date.
+     */
     private class byDue implements Comparator<Assignment> {
         @Override
         public int compare(Assignment o1, Assignment o2) {
@@ -179,6 +202,9 @@ public class Q implements java.io.Serializable{
         }
     }
 
+    /**
+     * Comparator class that allows for sorting of the Q by completion percentage.
+     */
     private class byComp implements Comparator<Assignment> {
         @Override
         public int compare(Assignment o1, Assignment o2) {
@@ -191,6 +217,9 @@ public class Q implements java.io.Serializable{
         }
     }
 
+    /**
+     * Comparator class that allows for sorting of the Q by category (class).
+     */
     private class byCat implements Comparator<Assignment> {
         @Override
         public int compare(Assignment o1, Assignment o2) {
@@ -198,6 +227,9 @@ public class Q implements java.io.Serializable{
         }
     }
 
+    /**
+     * Comparator class that allows for sorting of the Q by date assigned.
+     */
     private class byAssnd implements Comparator<Assignment> {
         @Override
         public int compare(Assignment o1, Assignment o2) {
@@ -230,7 +262,7 @@ public class Q implements java.io.Serializable{
      * 2 : sorted by category (class)
      * 3 : sorted by date assigned
      */
-    private int sortSetting; //FIXME : Not yet implemented.
+    private int sortSetting; 
 
     /**
      * Stores all the assignments. Funnily enough, not a queue, but calling the program
