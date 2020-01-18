@@ -244,7 +244,7 @@ public class Main {
      *              Should be a string word either due, completion, category, or assigned. These
      *              correspond to each of the possible ways to sort the Q.
      * @return and int that lets the main thread know if a valid setting was chosen, and if so,
-     * which one. 
+     * which one.
      */
     private static int sort(Q q, String[] input) {
         if (input.length < 1) {

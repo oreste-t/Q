@@ -211,6 +211,14 @@ public class Q implements java.io.Serializable{
         return false;
     }
 
+    /**
+     * Turns the Q into a printable string.
+     * @return String representation of the Q.
+     */
+    //FIXME : Need to fix completion splitting or allow for an option to
+    //FIXME : toggle it on and off. Currently prints Q in two chunks, with
+    //FIXME : the bottom chunk containing completed assignments. Not all users
+    //FIXME : may want this feature, as it overrides their sort setting.
     @Override
     public String toString() {
 
