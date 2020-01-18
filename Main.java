@@ -93,8 +93,26 @@ public class Main {
             } else if (arr[0].toLowerCase().equals("save")) {
                 boolean saved = save(_queue, name);
                 if (saved) {
-                    System.out.println("Saved successfully. Serialized data is saved in "+ name +".ser.");
+                    System.out.println("Saved successfully. Serialized data is saved in " + name + ".ser.");
                 }
+            } else if (arr[0].toLowerCase().equals("sort")) {
+                String[] info = arr[1].split(" ");
+                int setting = sort(_queue, info);
+                String result = "Q now sorted by ";
+                if (setting == 0) {
+                    result = result + "due date.";
+                } else if (setting == 1) {
+                    result = result + "completion percentage.";
+                } else if (setting == 2) {
+                    result = result + "category.";
+                } else if (setting == 3) {
+                    result = result + "date assigned.";
+                } else {
+                    continue;
+                }
+                System.out.println(result);
+                System.out.println("-");
+                System.out.print(_queue.toString());
             } else if (arr[0].toLowerCase().equals("toggle")) {
                 String[] info = arr[1].split(" ");
                 toggle(_queue, info);
@@ -220,6 +238,41 @@ public class Main {
     }
 
     /**
+     * Sets the sort order of the Q for printing.
+     * @param q Q whose sort order should be changed.
+     * @param input string array which should have one item. Any additional items will be ignored.
+     *              Should be a string word either due, completion, category, or assigned. These
+     *              correspond to each of the possible ways to sort the Q.
+     * @return and int that lets the main thread know if a valid setting was chosen, and if so,
+     * which one. 
+     */
+    private static int sort(Q q, String[] input) {
+        if (input.length < 1) {
+            System.out.println("Wrong format. A sort command must be of the form: \n" +
+                    "sort setting");
+            return -1;
+        }
+        if (input[0].toLowerCase().equals("due")) {
+            q.setSortSetting(0);
+            return 0;
+        } else if (input[0].toLowerCase().equals("completion")) {
+            q.setSortSetting(1);
+            return 1;
+        } else if (input[0].toLowerCase().equals("category")) {
+            q.setSortSetting(2);
+            return 2;
+        } else if (input[0].toLowerCase().equals("assigned")) {
+            q.setSortSetting(3);
+            return 3;
+        } else {
+            System.out.println("Setting does not exist. Type help to view available" +
+                    " settings for this command.");
+            return -1;
+        }
+
+    }
+
+    /**
      * Toggles either due date, completion percentage, or color for printing of the Q.
      * @param q Q where setting should be toggled.
      * @param input string array where the first item should be the setting to be toggled.
@@ -227,7 +280,7 @@ public class Main {
      *              in the array will be ignored.
      * @return boolean where true means toggle was successful and false means it was not.
      */
-    private static boolean toggle(Q q, String[] input) {
+    private static boolean toggle(Q q, String[] input) { //FIXME : need to add an option to toggle off completion splitting.
         if (input.length < 1) {
             System.out.println("Wrong format. A toggle command must be of the form: \n" +
                     "toggle setting");
@@ -342,6 +395,11 @@ public class Main {
             "utilizing the exit or quit commands will automatically save.  Typed command should be in the " +
             "following format: \n" +
             " save \n" +
+            "\n" +
+            "SORT - Changes the order in which the queue is sorted. There are four options, sort by due date," +
+            "sort by completion percentage, sort by category, sort by date assigned. Typed command should be in the " +
+            "following format, where setting should be either due, completion, category, or assigned: \n" +
+            " sort setting \n" +
             "\n" +
             "TOGGLE - Toggles date, completion percentage, or text color-coding on and off when printing " +
             "the assignments. Typed command should be in the following format, where setting should be " +
