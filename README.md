@@ -1,4 +1,4 @@
-#Q
+# Q
 ## What is Q?
 #### Basic Premise
 Q is a piece of productivity software that will allow you to keep track of tasks or assignments and their due dates. Once Q is started up it will ask you for the name of the Q you want to load. Anytime you want to make a new Q, or the first time you boot up, type any name, and a new Q with that name will be created and saved. If you already have a Q created, enter its name when prompted and it will be loaded up for you. Once you have done so, you may type '''help''' for a list of supported commands and their functions.
