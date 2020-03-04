@@ -47,7 +47,8 @@ public class Main {
         while(true) {
             String command = input.nextLine();  // Read user input
             String arr[] = command.split(" ", 2);
-            if (arr[0].toLowerCase().equals("add")) {
+            String lowrCom = arr[0].toLowerCase();
+            if (lowrCom.equals("add")) {
                 String[] info = arr[1].split(" ");
                 success = add(_queue, info);
                 if (success) {
@@ -55,10 +56,10 @@ public class Main {
                     System.out.println("-");
                     System.out.print(_queue.toString());
                 }
-            } else if (arr[0].toLowerCase().equals("clear")) {
+            } else if (lowrCom.equals("clear")) {
                 _queue.clear();
                 System.out.println("Q has been wiped.");
-            } else if (arr[0].toLowerCase().equals("delete")) {
+            } else if (lowrCom.equals("delete")) {
                 String[] info = arr[1].split(" ");
                 success = delete(_queue, info);
                 if (success) {
@@ -66,10 +67,10 @@ public class Main {
                     System.out.println("-");
                     System.out.print(_queue.toString());
                 }
-            } else if (arr[0].toLowerCase().equals("exit") || arr[0].toLowerCase().equals("quit")) {
+            } else if (lowrCom.equals("exit") || lowrCom.equals("quit")) {
                 System.out.println("Exiting Q . . .");
                 break;
-            } else if (arr[0].toLowerCase().equals("load")) {
+            } else if (lowrCom.equals("load")) {
                 if (save(_queue, name)) {
                     System.out.println("Serialized data is saved in " + name + ".ser.");
                 } else {
@@ -87,15 +88,15 @@ public class Main {
                 } else {
                     System.out.println("Q class not found.");
                 }
-            } else if (arr[0].toLowerCase().equals("print")) {
+            } else if (lowrCom.equals("print")) {
                 System.out.println("-");
                 System.out.print(_queue.toString());
-            } else if (arr[0].toLowerCase().equals("save")) {
+            } else if (lowrCom.equals("save")) {
                 boolean saved = save(_queue, name);
                 if (saved) {
                     System.out.println("Saved successfully. Serialized data is saved in " + name + ".ser.");
                 }
-            } else if (arr[0].toLowerCase().equals("sort")) {
+            } else if (lowrCom.equals("sort")) {
                 String[] info = arr[1].split(" ");
                 int setting = sort(_queue, info);
                 String result = "Q now sorted by ";
@@ -113,11 +114,11 @@ public class Main {
                 System.out.println(result);
                 System.out.println("-");
                 System.out.print(_queue.toString());
-            } else if (arr[0].toLowerCase().equals("toggle")) {
+            } else if (lowrCom.equals("toggle")) {
                 String[] info = arr[1].split(" ");
                 toggle(_queue, info);
 
-            } else if (arr[0].toLowerCase().equals("update")) {
+            } else if (lowrCom.equals("update")) {
                 String[] info = arr[1].split(" ");
                 success = update(_queue, info);
                 if (success) {
@@ -125,7 +126,7 @@ public class Main {
                     System.out.println("-");
                     System.out.print(_queue.toString());
                 }
-            } else if (arr[0].toLowerCase().equals("help")) {
+            } else if (lowrCom.equals("help")) {
                 System.out.println(HELP);
             } else {
                 System.out.println("Unrecognized command. Type \'help\' for a list of commands.");
@@ -280,7 +281,7 @@ public class Main {
      *              in the array will be ignored.
      * @return boolean where true means toggle was successful and false means it was not.
      */
-    private static boolean toggle(Q q, String[] input) { //FIXME : need to add an option to toggle off completion splitting.
+    private static boolean toggle(Q q, String[] input) {
         if (input.length < 1) {
             System.out.println("Wrong format. A toggle command must be of the form: \n" +
                     "toggle setting");
@@ -306,6 +307,13 @@ public class Main {
                 System.out.println("Color is toggled ON.");
             } else {
                 System.out.println("Color is toggled OFF.");
+            }
+        } else if (input[0].toLowerCase().equals("split")) {
+            q.toggleSplit();
+            if (q.getSplitToggle()) {
+                System.out.println("Completion Splitting is toggled ON.");
+            } else {
+                System.out.println("Completion Splitting is toggled OFF.");
             }
         } else {
             System.out.println("Unknown setting cannot be toggled.");
@@ -401,9 +409,9 @@ public class Main {
             "following format, where setting should be either due, completion, category, or assigned: \n" +
             " sort setting \n" +
             "\n" +
-            "TOGGLE - Toggles date, completion percentage, or text color-coding on and off when printing " +
-            "the assignments. Typed command should be in the following format, where setting should be " +
-            "either date, completion, or color: \n" +
+            "TOGGLE - Toggles date, completion percentage, text color-coding, or completion splitting on and off " +
+            "when printing the assignments. Typed command should be in the following format, where setting should be " +
+            "either date, completion, color, or split: \n" +
             " toggle setting \n" +
             "\n" +
             "UPDATE - Updates completion percentage of an assignment. The percentage should be a number " +
