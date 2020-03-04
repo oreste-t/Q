@@ -113,6 +113,13 @@ public class Q implements java.io.Serializable{
     }
 
     /**
+     * Toggles completion splitting on and off for printing.
+     */
+    public void toggleSplit() {
+        split = !split;
+    }
+
+    /**
      * Deletes assignment with given name and category if it exists.
      * @param name String name of the assignment to be deleted.
      * @param category String category (class) of assignment to be deleted.
@@ -263,6 +270,15 @@ public class Q implements java.io.Serializable{
     }
 
     /**
+     * Accessor method.
+     * @return boolean that denotes whether completion splitting is toggled on
+     * or off.
+     */
+    public boolean getSplitToggle() {
+        return split;
+    }
+
+    /**
      * Comparator class that allows for sorting of the Q by due date.
      */
     private class byDue implements Comparator<Assignment> {
@@ -324,6 +340,12 @@ public class Q implements java.io.Serializable{
      * Can be toggled on and off.
      */
     private boolean color;
+
+    /**
+     * Determines whether completion splitting is active.
+     * Can be toggled on and off.
+     */
+    private boolean split;
 
     /**
      * Determines how the Q is ordered.
