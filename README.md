@@ -10,7 +10,7 @@ I work on this in my free time and add updates as I feel the need for them. It i
 Clone or download the files. Serialized files will be stored in the folder where the files are located. Compile within that folder by navigating to it in terminal and typing the command 
 '''javac Main.java'''. This only needs to be done the first time or whenever you pull new updates. Anytime you want to run Q from then on, navigate again to that folder in terminal and type the command '''java Main'''.
 
-## Known Errors
+## Known Issues
 Hopefully not many.
 #### ANSI Escape Codes
 While text coloring for completion percentage works on terminal (macOS), I don't think it shows up in git bash on Windows. 
