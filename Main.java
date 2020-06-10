@@ -274,10 +274,10 @@ public class Main {
     }
 
     /**
-     * Toggles either due date, completion percentage, or color for printing of the Q.
+     * Toggles either due date, completion percentage, color, or numbering for printing of the Q.
      * @param q Q where setting should be toggled.
      * @param input string array where the first item should be the setting to be toggled.
-     *              Setting should be either date, completion, or color. Subsequent elements
+     *              Setting should be either date, completion, color, or nums. Subsequent elements
      *              in the array will be ignored.
      * @return boolean where true means toggle was successful and false means it was not.
      */
@@ -314,6 +314,13 @@ public class Main {
                 System.out.println("Completion Splitting is toggled ON.");
             } else {
                 System.out.println("Completion Splitting is toggled OFF.");
+            }
+        } else if (input[0].toLowerCase().equals("nums")) {
+            q.toggleNum();
+            if (q.getNumberedToggle()) {
+                System.out.println("Numbering is toggled ON.");
+            } else {
+                System.out.println("Numbering is toggled OFF.");
             }
         } else {
             System.out.println("Unknown setting cannot be toggled.");
@@ -409,9 +416,9 @@ public class Main {
             "following format, where setting should be either due, completion, category, or assigned: \n" +
             " sort setting \n" +
             "\n" +
-            "TOGGLE - Toggles date, completion percentage, text color-coding, or completion splitting on and off " +
-            "when printing the assignments. Typed command should be in the following format, where setting should be " +
-            "either date, completion, color, or split: \n" +
+            "TOGGLE - Toggles date, completion percentage, text color-coding, completion splitting, or numbering on " +
+            "and off when printing the assignments. Typed command should be in the following format, where setting " +
+            "should be either date, completion, color, split, or nums: \n" +
             " toggle setting \n" +
             "\n" +
             "UPDATE - Updates completion percentage of an assignment. The percentage should be a number " +

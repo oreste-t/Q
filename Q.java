@@ -20,6 +20,7 @@ public class Q implements java.io.Serializable{
         color = true;
         split = true;
         sortSetting = 0;
+        numbered = true;
     }
 
     /**
@@ -118,6 +119,13 @@ public class Q implements java.io.Serializable{
      */
     public void toggleSplit() {
         split = !split;
+    }
+
+    /**
+     * Toggles numbering on and off for printing.
+     */
+    public void toggleNum() {
+        numbered = !numbered;
     }
 
     /**
@@ -229,7 +237,7 @@ public class Q implements java.io.Serializable{
         if ( _queue.isEmpty()) {
             return "Q is empty \n";
         }
-
+        int curNum = 1;
         String complete = "";
         String result = "";
         for (int i = 0; i < _queue.size(); i++) {
@@ -237,7 +245,12 @@ public class Q implements java.io.Serializable{
                 complete = complete + _queue.get(i).toString(date, completion, color) + "\n";
                 continue;
             }
-            result = result + _queue.get(i).toString(date, completion, color) + "\n";
+            if (numbered) {
+                result = result + String.valueOf(curNum) + ". " + _queue.get(i).toString(date, completion, color) + "\n";
+                curNum++;
+            } else {
+                result = result + _queue.get(i).toString(date, completion, color) + "\n";
+            }
         }
         return result + complete;
     }
@@ -273,6 +286,14 @@ public class Q implements java.io.Serializable{
      */
     public boolean getSplitToggle() {
         return split;
+    }
+
+    /**
+     * Accessor method.
+     * @return boolean that denotes whether item numbering is toggled on or off.
+     */
+    public boolean getNumberedToggle() {
+        return numbered;
     }
 
     /**
@@ -352,6 +373,12 @@ public class Q implements java.io.Serializable{
      * 3 : sorted by date assigned
      */
     private int sortSetting;
+
+    /**
+     * Determines if the incomplete items in the q are numbered.
+     * If true, items are numbered according to sort setting, starting at 1.
+     */
+    private boolean numbered;
 
     /**
      * Stores all the assignments. Funnily enough, not a queue, but calling the program
