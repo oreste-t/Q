@@ -14,3 +14,4 @@ Clone or download the files. Serialized files will be stored in the folder where
 Hopefully not many.
 #### ANSI Escape Codes
 While text coloring for completion percentage works on terminal (macOS), I don't think it shows up in git bash on Windows. 
+Update: Just tested this on Windows (GitBash) and colors do actually work.
