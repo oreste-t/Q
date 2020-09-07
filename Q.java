@@ -242,7 +242,11 @@ public class Q implements java.io.Serializable{
         String result = "";
         for (int i = 0; i < _queue.size(); i++) {
             if (_queue.get(i).getCompletion() == 100 && split) {
-                complete = complete + _queue.get(i).toString(date, completion, color) + "\n";
+                if (numbered) {
+                    complete = complete + "   " +_queue.get(i).toString(date, completion, color) + "\n";
+                } else {
+                    complete = complete + _queue.get(i).toString(date, completion, color) + "\n";
+                }
                 continue;
             }
             if (numbered) {

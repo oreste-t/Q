@@ -80,6 +80,7 @@ public class Assignment implements Comparable<Assignment>, java.io.Serializable{
      * @return returns a one-line string representation of the assignment.
      */
     public String toString(boolean date, boolean comp, boolean color) {
+        //String result = String.format("%s : %s : at %d", _name, _category, _completion);
         String result = _name;
         result = result + " : " + _category;
 
