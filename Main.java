@@ -57,8 +57,15 @@ public class Main {
                     System.out.print(_queue.toString());
                 }
             } else if (lowrCom.equals("clear")) {
-                _queue.clear();
-                System.out.println("Q has been wiped.");
+                 String[] info = arr[1].split(" ");
+                int outcome = clear(_queue, info);
+                if (outcome == 1) {
+                    System.out.println("Q has been wiped.");
+                } else if (outcome == 2) {
+                    System.out.println("Completed entries have been wiped.");
+                } else {
+                    System.out.println("Failed to wipe Q.");
+                }
             } else if (lowrCom.equals("delete")) {
                 String[] info = arr[1].split(" ");
                 success = delete(_queue, info);
@@ -69,6 +76,8 @@ public class Main {
                 }
             } else if (lowrCom.equals("exit") || lowrCom.equals("quit")) {
                 System.out.println("Exiting Q . . .");
+                getQ.close();
+                input.close();
                 break;
             } else if (lowrCom.equals("load")) {
                 if (save(_queue, name)) {
@@ -172,6 +181,29 @@ public class Main {
             System.out.println("Make sure your inputted month and date exist.");
             return false;
         }
+    }
+
+    /**
+     * Wipes entire Q or wipes all completed assignments.
+     @param q the currently opened Q which should have assignments wiped from it.
+     @param input a string array constructed from user input. Item 0 should either be
+                nothing if the user wants to clear the entire Q, or should be "completed"
+                if the user only wants to wipe assignments with a completion percentage 
+                of 100%.
+     @return int where 1 means the entire Q was cleared, 2 means the completed assignments
+                were cleared, and 3 means there was an error.
+     */
+    private static int clear(Q q, String[] input) {
+        if (input.length == 0) {
+            q.clear();
+            return 1;
+        } else if (input[0].toLowerCase().equals("completed")) {
+            q.clean();
+            return 2;
+        }
+        System.out.println("Wrong format. A clear command must be of the form: \n" +
+                    "clear setting");
+        return 3;
     }
 
     /**
@@ -385,8 +417,10 @@ public class Main {
             "and a due date. Typed command should be in the following format: \n" +
             " add name category MM DD YYYY \n" +
             "\n" +
-            "CLEAR - wipes the Q completely. Typed command should be in the following format: \n" +
-            " clear \n" +
+            "CLEAR - wipes entire Q if no argument is given, or wipes all assignments with completion " + 
+            "percentage equal to 100 if setting is completed. Typed command should be in the following " + 
+            "format, where setting is either left blank or is completed: \n" +
+            " clear setting\n" +
             "\n" +
             "DELETE - deletes all elements from the queue that have the given name and category. Typed " +
             "command should be in the following format: \n" +

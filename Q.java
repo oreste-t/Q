@@ -86,11 +86,35 @@ public class Q implements java.io.Serializable{
     }
 
     /**
+     * Deletes assignment with given name and category if it exists.
+     * @param name String name of the assignment to be deleted.
+     * @param category String category (class) of assignment to be deleted.
+     * @return Returns true on success and false on failure of deletion.
+     */
+    public boolean delete(String name, String category) {
+        Assignment rem = new Assignment(name, category, 1, 1, 2020);
+        return _queue.remove(rem);
+    }
+
+    /**
      * Wipes all contents of Q. Does not reset toggle settings
      * to default. Only clears assignments out of Q.
      */
     public void clear() {
         this._queue = new ArrayList<>();
+    }
+
+    /**
+     * Wipes all assignments of Q with completion percentage equal to 100.
+     * Does not reset toggle settings to default.
+     */
+    public void clean() {
+         for (int i = 0; i < _queue.size(); i++) {
+             Assignment cur = _queue.get(i);
+            if(cur.getCompletion() == 100) {
+                this.delete(cur.getName(), cur.getCategory());
+            }
+        }
     }
 
     /**
@@ -126,17 +150,6 @@ public class Q implements java.io.Serializable{
      */
     public void toggleNum() {
         numbered = !numbered;
-    }
-
-    /**
-     * Deletes assignment with given name and category if it exists.
-     * @param name String name of the assignment to be deleted.
-     * @param category String category (class) of assignment to be deleted.
-     * @return Returns true on success and false on failure of deletion.
-     */
-    public boolean delete(String name, String category) {
-        Assignment rem = new Assignment(name, category, 1, 1, 2020);
-        return _queue.remove(rem);
     }
 
     /**

@@ -258,4 +258,47 @@ public class QTest {
         assertEquals("Incorrect length.", 5, qu.length());
 
     }
+
+    @Test
+    public void clear() {
+        Assignment alpha = new Assignment("HW1", "CS10",
+                10, 10, 2020);
+
+        Assignment bravo = new Assignment("HW2", "CS10",
+                10, 15, 2020);
+
+        // Should be cleared
+        Assignment charlie = new Assignment("notes", "CS188",
+                10, 11, 2020);
+        charlie.update(100);
+
+        Assignment delta = new Assignment("HW1", "CS188",
+                10, 13, 2020);
+        delta.update(10);
+
+        Assignment echo = new Assignment("syllabus", "ESPM10",
+                10, 12, 2020);
+        echo.update(27);
+
+        // Should be cleared
+        Assignment foxtrot = new Assignment("proj1", "CS10",
+                10, 20, 2020);
+        foxtrot.update(100);
+
+
+        Q qu = new Q();
+        qu.push(alpha);
+        qu.push(bravo);
+        qu.push(charlie);
+        qu.push(delta);
+        qu.push(echo);
+        qu.push(foxtrot);
+
+        qu.clean();
+        for (int i = 0; i < qu.length(); i++) {
+                assertEquals("Q not properly cleared.", qu.get(i).getName().equals("proj1"), false);
+                assertEquals("Q not properly cleared.", qu.get(i).getName().equals("notes"), false);
+        }
+
+    }
 }
