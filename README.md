@@ -15,3 +15,6 @@ Hopefully not many.
 #### ANSI Escape Codes
 While text coloring for completion percentage works on terminal (macOS), I don't think it shows up in git bash on Windows. 
 Update: Just tested this on Windows (GitBash) and colors do actually work.
+
+As of 1/19/20 the clear command has been fixed. It had a problem with concurrent modification when clearing only completed assignments.
+
