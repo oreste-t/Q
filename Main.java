@@ -1,5 +1,3 @@
-
-
 import java.io.*;
 import java.util.Scanner;
 
@@ -57,7 +55,10 @@ public class Main {
                     System.out.print(_queue.toString());
                 }
             } else if (lowrCom.equals("clear")) {
-                 String[] info = arr[1].split(" ");
+                String[] info= new String[0];
+                if (arr.length == 2) {
+                    info = arr[1].split(" ");
+                }
                 int outcome = clear(_queue, info);
                 if (outcome == 1) {
                     System.out.println("Q has been wiped.");
