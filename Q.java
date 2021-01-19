@@ -109,11 +109,15 @@ public class Q implements java.io.Serializable{
      * Does not reset toggle settings to default.
      */
     public void clean() {
-         for (int i = 0; i < _queue.size(); i++) {
-             Assignment cur = _queue.get(i);
+        ArrayList<Assignment> complete = new ArrayList<Assignment>();
+        for (int i = 0; i < _queue.size(); i++) {
+            Assignment cur = _queue.get(i);
             if(cur.getCompletion() == 100) {
-                this.delete(cur.getName(), cur.getCategory());
+                complete.add(cur);
             }
+        }
+        for (int j = 0; j < complete.size(); j++) {
+            this.delete(complete.get(j).getName(), complete.get(j).getCategory());
         }
     }
 
